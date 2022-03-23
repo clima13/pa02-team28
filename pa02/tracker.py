@@ -37,7 +37,7 @@ import sys
 
 #transactions = Transaction('tracker.db')
 category = Category('tracker.db')
-
+transactions =[]
 
 # here is the menu for the tracker app
 
@@ -78,6 +78,22 @@ def process_choice(choice):
         desc = input("new category description: ")
         cat = {'name':name, 'desc':desc}
         category.update(rowid,cat)
+    elif choice =='4':
+        print("show transactions")
+        print_transactions(transactions)
+    elif choice == '5':
+        print("add transaction")
+        # amount, category, date (yyyymmdd), description
+        itemid = int(input("itemid: "))
+        amount = int(input("amount spent "))
+        category = input("what category does this fall under? ")
+        date = int(input("in the order yyyymmdd "))
+        description = input("describe your spending ")
+        trx = {'item #': itemid,'amount': amount, 'category':category, 'date': date , "description": description}
+        transactions.append(trx)
+        # print (transactions)
+    elif choice  == '7':
+        print("summarize transactions by date")
     else:
         print("choice",choice,"not yet implemented")
 
@@ -105,12 +121,12 @@ def print_transactions(items):
         print('no items to print')
         return
     print('\n')
-    print("%-10s %-10d %-10s %-10d %-30s"%(
+    print("%-10s %-10s %-10s %-10s %-30s"%(
         'item #','amount','category','date','description'))
     print('-'*40)
     for item in items:
         values = tuple(item.values()) 
-        print("%-10s %-10d %-10s %-10d %-30s"%values)
+        print("%-10s %-10s %-10s %-10s %-30s"%values)
 
 def print_category(cat):
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
