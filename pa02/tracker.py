@@ -137,15 +137,17 @@ def summarize_trx_by_date(items,date):
         print('no items to print')
         return
     print('\n')
-    print("%-10s %-10s %-10s %-10s %-30s"%(
-        'item #','amount','category','date','description'))
-    print('-'*40)
+    print("%-10s %-10s "%(
+        'date','amount'))
+    print('-'*20)
+    total_spent = 0
     for item in items:
         # print(date)
         # print(item['date'])
         if (date == item['date']):
-            values = tuple(item.values()) 
-            print("%-10s %-10s %-10s %-10s %-30s"%values)
+            total_spent+=item['amount']
+            values = tuple(item.values())
+    print("%-10s $%-10s"%(item['date'],total_spent))        
 
 
 def print_category(cat):
