@@ -94,6 +94,9 @@ def process_choice(choice):
         # print (transactions)
     elif choice  == '7':
         print("summarize transactions by date")
+        date = int(input("what date whould you like to see: "))
+        summarize_trx_by_date(transactions,date)
+        #Do something similiar to print but only print out those that have the same date value
     else:
         print("choice",choice,"not yet implemented")
 
@@ -127,6 +130,23 @@ def print_transactions(items):
     for item in items:
         values = tuple(item.values()) 
         print("%-10s %-10s %-10s %-10s %-30s"%values)
+
+def summarize_trx_by_date(items,date):
+    ''' print the transactions '''
+    if len(items)==0:
+        print('no items to print')
+        return
+    print('\n')
+    print("%-10s %-10s %-10s %-10s %-30s"%(
+        'item #','amount','category','date','description'))
+    print('-'*40)
+    for item in items:
+        # print(date)
+        # print(item['date'])
+        if (date == item['date']):
+            values = tuple(item.values()) 
+            print("%-10s %-10s %-10s %-10s %-30s"%values)
+
 
 def print_category(cat):
     print("%-3d %-10s %-30s"%(cat['rowid'],cat['name'],cat['desc']))
