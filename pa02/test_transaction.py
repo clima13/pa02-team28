@@ -40,8 +40,10 @@ def test_add(small_db):
 @pytest.mark.delete
 def test_delete(empty_db):
     ''' add two transactions, remove one and make sure it was removed '''
-    empty_db.add(1, 1, "food", 20220324, "")
-    empty_db.add(2, 1, "food", 20220324, "")
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "food",
+                  "date": 20220324, "description": ""})
+    empty_db.add({"itemnumber": 2, "amount": 1, "category": "food",
+                  "date": 20220324, "description": ""})
 
     transactions1 = empty_db.select_all()
 
@@ -50,7 +52,7 @@ def test_delete(empty_db):
     transactions2 = empty_db.select_all()
 
     assert len(transactions2) == 1
-    assert transactions2[0]['item #'] == 1
+    assert transactions2[0]['itemnumber'] == '1'
 
 @pytest.mark.summarizedate
 @pytest.mark.malai
@@ -66,9 +68,12 @@ def test_summarize_by_date(small_db):
 @pytest.mark.summarizemonth
 def test_summarize_by_month(empty_db):
     ''' add a few transactions, ensure that only the correct one makes it '''
-    empty_db.add(1, 1, "food", 20220324, "")
-    empty_db.add(1, 1, "food", 20220424, "")
-    empty_db.add(1, 1, "food", 20220524, "")
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "food",
+                  "date": 20220324, "description": ""})
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "food",
+                  "date": 20220424, "description": ""})
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "food",
+                  "date": 20220524, "description": ""})
 
     transactions_april = empty_db.summarize_by_month(4)
 

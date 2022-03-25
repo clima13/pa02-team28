@@ -91,13 +91,17 @@ def process_choice(choice):
         description = input("describe your spending ")
         trx = {'itemnumber':itemid, 'amount': amount, 'category':category, 'date': date , "description": description}
         transactions.add(trx)
-        
+    elif choice == '6':
+        transactions.delete(int(input("Enter an item number to delete: ")))
     elif choice  == '7':
         print("summarize transactions by date")
         # date = int(input("what date whould you like to see: "))
         summarized_by_date = transactions.summarize_trx_by_date()
         print_summary_trx_by_date(summarized_by_date)
         #Do something similiar to print but only print out those that have the same date value
+    elif choice == '8':
+        month = int(input("Enter a month (1-12): "))
+        print_transactions(transactions.summarize_by_month(month))
     else:
         print("choice",choice,"not yet implemented")
 

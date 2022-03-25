@@ -77,8 +77,8 @@ class Transaction:
     def summarize_by_month(self, month):
         con = sqlite3.connect(self.database)
         cur = con.cursor()
-        cur.execute("SELECT * FROM transactions WHERE date%10000/100=(?);",
+        cur.execute("SELECT itemnumber,* FROM transactions WHERE date%10000/100=(?);",
                     (month,))
         transactions = cur.fetchall()
         con.close()
-        return self.list_to_dict(transactions)
+        return to_trx_dict_list(transactions)
