@@ -31,13 +31,12 @@ could be replaced with PostgreSQL or Pandas or straight python lists
 
 '''
 
-#from transactions import Transaction
+from transactions import Transaction
 from category import Category
 import sys
 
-#transactions = Transaction('tracker.db')
+transactions = Transaction('tracker.db')
 category = Category('tracker.db')
-transactions =[]
 
 # here is the menu for the tracker app
 
@@ -80,7 +79,8 @@ def process_choice(choice):
         category.update(rowid,cat)
     elif choice =='4':
         print("show transactions")
-        print_transactions(transactions)
+        trxs = transactions.select_all()
+        print_transactions(trxs)
     elif choice == '5':
         print("add transaction")
         # amount, category, date (yyyymmdd), description
@@ -89,13 +89,14 @@ def process_choice(choice):
         category = input("what category does this fall under? ")
         date = int(input("in the order yyyymmdd "))
         description = input("describe your spending ")
-        trx = {'item #': itemid,'amount': amount, 'category':category, 'date': date , "description": description}
-        transactions.append(trx)
-        # print (transactions)
+        trx = {'itemnumber':itemid, 'amount': amount, 'category':category, 'date': date , "description": description}
+        transactions.add(trx)
+        
     elif choice  == '7':
         print("summarize transactions by date")
-        date = int(input("what date whould you like to see: "))
-        summarize_trx_by_date(transactions,date)
+        # date = int(input("what date whould you like to see: "))
+        summarized_by_date = transactions.summarize_trx_by_date()
+        print_summary_trx_by_date(summarized_by_date)
         #Do something similiar to print but only print out those that have the same date value
     else:
         print("choice",choice,"not yet implemented")
@@ -118,20 +119,30 @@ def toplevel():
 # here are some helper functions
 #
 
+def print_trx(trx):
+    # print(trx['itemnumber'])
+    # print(trx['amount'])
+    # print(trx['category'])
+    # print(trx['date'])
+    # print(trx['description'])
+    print("%-20s %-20s %-10s %-10s %-30s"%(trx['itemnumber'],trx['amount'],trx['category'],trx['date'],trx['description']))
+
+
 def print_transactions(items):
     ''' print the transactions '''
     if len(items)==0:
         print('no items to print')
         return
     print('\n')
-    print("%-10s %-10s %-10s %-10s %-30s"%(
-        'item #','amount','category','date','description'))
-    print('-'*40)
+    print("%-20s %-20s %-10s %-10s %-30s"%(
+        'itemnumber','amount','category','date','description'))
+    print('-'*75)
     for item in items:
-        values = tuple(item.values()) 
-        print("%-10s %-10s %-10s %-10s %-30s"%values)
+        # print(item['itemnumber'])
 
-def summarize_trx_by_date(items,date):
+        print_trx(item)
+
+def print_summary_trx_by_date(items):
     ''' print the transactions '''
     if len(items)==0:
         print('no items to print')
@@ -140,14 +151,8 @@ def summarize_trx_by_date(items,date):
     print("%-10s %-10s "%(
         'date','amount'))
     print('-'*20)
-    total_spent = 0
     for item in items:
-        # print(date)
-        # print(item['date'])
-        if (date == item['date']):
-            total_spent+=item['amount']
-            values = tuple(item.values())
-    print("%-10s $%-10s"%(item['date'],total_spent))        
+        print("%-10s $%-10s"%(item['date'],item['amount']))        
 
 
 def print_category(cat):
