@@ -79,3 +79,18 @@ def test_summarize_by_month(empty_db):
 
     assert len(transactions_april) == 1
     assert transactions_april[0]['date'] == 20220424
+
+@pytest.mark.summarizedescription
+def test_summarize_by_description(empty_db):
+    ''' add a few transactions, ensure that only the correct one makes it '''
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "food",
+                  "date": 20220324, "description": "test1"})
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "mood",
+                  "date": 20220424, "description": "test2"})
+    empty_db.add({"itemnumber": 1, "amount": 1, "category": "dood",
+                  "date": 20220524, "description": "test3"})
+
+    transactions_test2 = empty_db.summarize_by_description("test2")
+
+    assert len(transactions_test2) == 1
+    assert transactions_test2[0]['date'] == 20220424
