@@ -52,7 +52,8 @@ menu = '''
 8. summarize transactions by month
 9. summarize transactions by year
 10. summarize transactions by category
-11. print this menu
+11. summarize transactions by description
+12. print this menu
 '''
 
 
@@ -108,6 +109,11 @@ def process_choice(choice):
     elif choice == '10':#Bradley did this
         category = str(input("Enter a category: "))
         print_transactions(transactions.summarize_by_category(category))
+    elif choice == '11':#Nathan added this extra addition
+        description = str(input("Enter a description: "))
+        print_transactions(transactions.summarize_by_description(description))
+    elif choice == '12':#Nathan added this
+        print(menu)
     else:
         print("choice",choice,"not yet implemented")
 

@@ -100,3 +100,13 @@ class Transaction:
         transactions = cur.fetchall()
         con.close()
         return to_trx_dict_list(transactions)
+
+    def summarize_by_description(self, info): #Nathan added this
+        #My interpretation of the question is print the menu of the selected catagory
+        con = sqlite3.connect(self.database)
+        cur = con.cursor()
+        cur.execute("SELECT itemnumber,* FROM transactions WHERE description=(?);",
+                    (info,))
+        transactions = cur.fetchall()
+        con.close()
+        return to_trx_dict_list(transactions)
