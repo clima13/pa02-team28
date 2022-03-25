@@ -22,7 +22,7 @@ class Transaction:
                     description text)")
         con.commit()
         con.close()
-<<<<<<< HEAD
+
     def select_all(self):
         ''' return all of the categories as a list of dicts.'''
         con= sqlite3.connect(self.database)
@@ -65,7 +65,6 @@ class Transaction:
         last_rowid = cur.fetchone()
         con.commit()
         con.close()
-=======
 
     def delete(self, itemnumber):
         con = sqlite3.connect(self.database)
@@ -78,9 +77,10 @@ class Transaction:
     def summarize_by_month(self, month):
         con = sqlite3.connect(self.database)
         cur = con.cursor()
-        cur.execute("SELECT * FROM transactions WHERE date%10000/100=(?);",
+        cur.execute("SELECT itemnumber,* FROM transactions \
+                    WHERE date%10000/100=(?);",
                     (month,))
         transactions = cur.fetchall()
+        print(transactions)
         con.close()
-        return self.list_to_dict(transactions)
->>>>>>> 92240de3d0893366b6658e63c0f2b46a483538d2
+        return to_trx_dict_list(transactions)
