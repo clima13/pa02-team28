@@ -36,7 +36,7 @@ from category import Category
 
 
 transactions = Transaction('tracker.db')
-category = Category('tracker.db')
+categories = Category('tracker.db')
 
 # here is the menu for the tracker app
 
@@ -63,20 +63,20 @@ def process_choice(choice):
     if choice=='0':
         return
     elif choice=='1':
-        cats = category.select_all()
+        cats = categories.select_all()
         print_categories(cats)
     elif choice=='2':
         name = input("category name: ")
         desc = input("category description: ")
         cat = {'name':name, 'desc':desc}
-        category.add(cat)
+        categories.add(cat)
     elif choice=='3':
         print("modifying category")
         rowid = int(input("rowid: "))
         name = input("new category name: ")
         desc = input("new category description: ")
         cat = {'name':name, 'desc':desc}
-        category.update(rowid,cat)
+        categories.update(rowid,cat)
     elif choice =='4':
         print("show transactions")
         trxs = transactions.select_all()
