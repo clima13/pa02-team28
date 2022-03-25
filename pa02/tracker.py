@@ -120,11 +120,6 @@ def toplevel():
 #
 
 def print_trx(trx):
-    # print(trx['itemnumber'])
-    # print(trx['amount'])
-    # print(trx['category'])
-    # print(trx['date'])
-    # print(trx['description'])
     print("%-20s %-20s %-10s %-10s %-30s"%(trx['itemnumber'],trx['amount'],trx['category'],trx['date'],trx['description']))
 
 
