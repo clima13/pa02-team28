@@ -10,7 +10,32 @@ def dbfile(tmpdir):
 def empty_db(dbfile):
     ''' creates a Transaction object with an empty database '''
     db = Transaction(dbfile)
-    return db
+    yield db
+
+@pytest.fixture
+def small_db(empty_db):
+    ''' create a small database, and tear it down later'''
+    trx1 = {'itemnumber':1,'amount':5, 'category':"sports", 'date':20220324, 'description':"-" }
+    trx2 = {'itemnumber':2,'amount':5, 'category':"sports", 'date':20220324, 'description':"-" }
+    trx3 = {'itemnumber':3,'amount':5, 'category':"sports", 'date':20220325, 'description':"-" }
+    id1=empty_db.add(trx1)
+    id2=empty_db.add(trx2)
+    id3=empty_db.add(trx3)
+    yield empty_db
+    empty_db.delete(id3)
+    empty_db.delete(id2)
+    empty_db.delete(id1)
+
+@pytest.mark.add
+@pytest.mark.malai
+def test_add(small_db):
+    ''' add a category to db, the select it, then delete it'''
+
+    trx4 = {'itemnumber':4,'amount':5, 'category':"sports", 'date':20220325, 'description':"-" }
+    trx0 = small_db.select_all()
+    small_db.add(trx4)
+    trx1 = small_db.select_all()
+    assert len(trx1) == len(trx0) + 1
 
 @pytest.mark.delete
 def test_delete(empty_db):
@@ -26,6 +51,17 @@ def test_delete(empty_db):
 
     assert len(transactions2) == 1
     assert transactions2[0]['item #'] == 1
+
+@pytest.mark.summarizedate
+@pytest.mark.malai
+def test_summarize_by_date(small_db):
+    ''' add a few transactions, summarize spending by date'''
+    transactions_bydate = small_db.summarize_trx_by_date()
+
+    assert len(transactions_bydate) == 2
+    assert transactions_bydate[0][0] == 20220324
+    assert transactions_bydate[0][1] == 10
+    
 
 @pytest.mark.summarizemonth
 def test_summarize_by_month(empty_db):
