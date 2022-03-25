@@ -22,7 +22,6 @@ class Transaction:
                     description text)")
         con.commit()
         con.close()
-<<<<<<< HEAD
     def select_all(self):
         ''' return all of the categories as a list of dicts.'''
         con= sqlite3.connect(self.database)
@@ -60,12 +59,12 @@ class Transaction:
     def summarize_trx_by_date(self):
         con= sqlite3.connect(self.database)
         cur = con.cursor()
-        cur.execute("SELECT date,sum(amount) as n from transactions group by date")
+        cur.execute("SELECT date,sum(amount) from transactions group by date")
         con.commit()
-        last_rowid = cur.fetchone()
+        tuples = cur.fetchall()
         con.commit()
         con.close()
-=======
+        return tuples
 
     def delete(self, itemnumber):
         con = sqlite3.connect(self.database)
@@ -83,4 +82,3 @@ class Transaction:
         transactions = cur.fetchall()
         con.close()
         return self.list_to_dict(transactions)
->>>>>>> 92240de3d0893366b6658e63c0f2b46a483538d2

@@ -147,7 +147,7 @@ def print_summary_trx_by_date(items):
         'date','amount'))
     print('-'*20)
     for item in items:
-        print("%-10s $%-10s"%(item['date'],item['amount']))        
+        print("%-10s $%-10s"%(item[0],item[1]))        
 
 
 def print_category(cat):
