@@ -82,3 +82,21 @@ class Transaction:
         transactions = cur.fetchall()
         con.close()
         return to_trx_dict_list(transactions)
+
+    def summarize_by_year(self, year):#Bradley added this
+        con = sqlite3.connect(self.database)
+        cur = con.cursor()
+        cur.execute("SELECT itemnumber,* FROM transactions WHERE date/10000=(?);",
+                    (year,))
+        transactions = cur.fetchall()
+        con.close()
+        return to_trx_dict_list(transactions)
+
+    def summarize_by_category(self, cat):#Bradley added this
+        con = sqlite3.connect(self.database)
+        cur = con.cursor()
+        cur.execute("SELECT itemnumber,* FROM transactions WHERE category=(?);",
+                    (cat,))
+        transactions = cur.fetchall()
+        con.close()
+        return to_trx_dict_list(transactions)

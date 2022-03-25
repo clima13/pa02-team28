@@ -102,6 +102,12 @@ def process_choice(choice):
     elif choice == '8':
         month = int(input("Enter a month (1-12): "))
         print_transactions(transactions.summarize_by_month(month))
+    elif choice == '9':#Bradley did this
+        year = int(input("Enter a year (yyyy): "))
+        print_transactions(transactions.summarize_by_year(year))
+    elif choice == '10':#Bradley did this
+        category = str(input("Enter a category: "))
+        print_transactions(transactions.summarize_by_category(category))
     else:
         print("choice",choice,"not yet implemented")
 
